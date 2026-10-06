@@ -1,0 +1,32 @@
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this page.
+
+Copyright (c) 2025 Xe Iaso <xe.iaso@techaro.lol>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Includes code from https://github.com/aws/aws-sdk-js-crypto-helpers which is
+used under the terms of the Apache 2 license.
+
+@licend  The above is the entire license notice
+for the JavaScript code in this page.
+*/
+(()=>{var h=new TextEncoder,y=async t=>{let e=h.encode(t);return await crypto.subtle.digest("SHA-256",e)},g=t=>t.reduce((e,s)=>e+s.toString(16).padStart(2,"0"),"");addEventListener("message",async({data:t})=>{let{data:e,difficulty:s,threads:d}=t,a=t.nonce,f=a===0,i=0,c=Math.floor(s/2),l=s%2!==0;for(;;){let u=await y(e+a),o=new Uint8Array(u),r=!0;for(let n=0;n<c;n++)if(o[n]!==0){r=!1;break}if(r&&l&&o[c]>>4!==0&&(r=!1),r){let n=g(o);postMessage({hash:n,data:e,difficulty:s,nonce:a});return}a+=d,i++,f&&(i&1023)===0&&postMessage(a)}});})();
+//# sourceMappingURL=sha256-webcrypto.mjs.map
